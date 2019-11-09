@@ -1,18 +1,23 @@
 $text-shadow:2px 2px 6px rgba(14, 42, 90, 0.4);
 $border-radius:10px;
-$card-shadow: 0 20px 40px rgba(50, 66, 93, 0.2);
+$card-shadow: 0 20px 40px rgba(50, 66, 93, 0.3);
 
+
+h1{
+  margin-bottom:50px;
+}
 
 .card{
   width:350px;
   height:200px;
   border-radius:$border-radius;
-  border:4px white solid;
+  border:2px white solid;
   filter:saturate(130%);
   box-shadow: $card-shadow;
-  cursor:pointer;
   position: absolute;
-  left:40%;
+  cursor:pointer;
+
+  left:38%;
 
   &::after{
     content:"";
