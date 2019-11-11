@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTransition, animated } from "react-spring";
+import { useTransition, useSpring, animated } from "react-spring";
 import "./style.scss";
 
 const cities = [
@@ -36,6 +36,7 @@ const cities = [
 
 function StackedCards() {
   const [items, setItems] = useState(cities);
+  const [propsScale, set] = useSpring(() => ({ s: 1 }));
   const transitions = useTransition(items, item => item.id, {
     from: { transform: "translate3d(0,200px,0)" },
     enter: { transform: "translate3d(0,-100px,0)" },
@@ -47,25 +48,31 @@ function StackedCards() {
       <h1>Travel Destinations</h1>
       {transitions.map(({ item, props, id }) => (
         <animated.div key={id} style={props}>
-          <div
-            key={item.id}
-            className="card"
-            style={{
-              backgroundImage: `url(${item.url})`,
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              transform: `translateY(${item.id * 90}px)`,
-            }}
+          <animated.div
+            onMouseMove={() => set({ s: 1.2 })}
+            onMouseLeave={() => set({ s: 1 })}
+            style={{ transform: propsScale.s.interpolate(s => ` scale(${s})`) }}
           >
-            <div className="content">
-              <div className="info">
-                <div className="date">{item.date}</div>
-                <div className="length">{item.length} Days</div>{" "}
+            <div
+              key={item.id}
+              className="card"
+              style={{
+                backgroundImage: `url(${item.url})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                transform: `translateY(${item.id * 90}px)`,
+              }}
+            >
+              <div className="content">
+                <div className="info">
+                  <div className="date">{item.date}</div>
+                  <div className="length">{item.length} Days</div>{" "}
+                </div>
+                <div className="title">{item.title}</div>
               </div>
-              <div className="title">{item.title}</div>
             </div>
-          </div>
+          </animated.div>
         </animated.div>
       ))}
     </div>
