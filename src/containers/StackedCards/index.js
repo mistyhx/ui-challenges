@@ -49,7 +49,7 @@ function StackedCards() {
       {transitions.map(({ item, props, id }) => (
         <animated.div key={id} style={props}>
           <animated.div
-            onMouseMove={() => set({ s: 1.2 })}
+            onMouseMove={() => set({ s: 1.1 })}
             onMouseLeave={() => set({ s: 1 })}
             style={{ transform: propsScale.s.interpolate(s => ` scale(${s})`) }}
           >

@@ -1,0 +1,62 @@
+$text-shadow:2px 2px 6px rgba(14, 42, 90, 0.4);
+$border-radius:10px;
+$card-shadow: 0 20px 40px rgba(68, 71, 93, 0.1);
+$pikachu-color: #ffd622;
+
+
+.container{
+  height:740px;
+  width:380px;
+  margin:0 auto;
+  border: 10px solid #252525;
+  padding:10px;
+  border-radius:50px;
+  overflow:hidden;
+
+}
+
+.list{
+  display:flex;
+  flex-direction:row;
+  margin-top:300px;
+
+}
+
+.pokemon{
+  height:240px;
+  align-self:center;
+  width:240px;
+  padding:30px;
+  margin-top:200px;
+  border-radius:4px;
+  background-color:white;
+  box-shadow: $card-shadow;
+  text-align:left;
+  background-color:$pikachu-color;
+  margin:10px;
+
+
+  &:before{
+    background-image:url("http://vignette2.wikia.nocookie.net/epic-rap-battles-of-cartoons/images/e/e1/025Pikachu_OS_anime_4.png/revision/latest?cb=20141027015355");
+    content:"";
+    display:block;
+    height:220px;
+    width:200px;
+    background-size:contain;
+    background-repeat: no-repeat;
+    transform: translateY(-150px);
+
+  }
+
+  &-content{
+    transform: translateY(-150px);
+  }
+
+  p{
+      font-size:14px;
+  }
+
+
+
+
+}
