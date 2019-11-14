@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSprings, animated } from "react-spring";
+import { FiAlignLeft, FiSearch } from "react-icons/fi";
 import "./style.scss";
 
 const pokemons = [
@@ -32,7 +33,11 @@ function PokemonCollection() {
 
   return (
     <div className="container">
-      <h1>Pokedex</h1>
+      <div className="header">
+        <FiAlignLeft size={24} />
+        <h1>Pokedex</h1>
+        <FiSearch size={24} />
+      </div>
       <div className="list">
         {props.map((props, i) => (
           <animated.div style={props}>

@@ -13,12 +13,20 @@ $pikachu-color: #ffd622;
   padding:10px;
   border-radius:50px;
   overflow:scroll;
+
+  .header{
+    display: flex;
+    flex-direction:row;
+    align-items: baseline;
+    justify-content:space-between;
+  }
+
 }
 
 .list{
   display:flex;
   flex-direction:row;
-  margin-top:300px;
+  margin-top:180px;
   width:100%;
 
 }
