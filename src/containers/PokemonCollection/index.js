@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSprings, animated } from "react-spring";
+import { useGesture, useDrag } from "react-use-gesture";
 import { FiAlignLeft, FiSearch } from "react-icons/fi";
 import "./style.scss";
 
@@ -27,9 +28,19 @@ const pokemons = [
   },
 ];
 
-function PokemonCollection() {
-  const [props, set] = useSprings(pokemons.length, i => ({ opacity: 0, config: { mass: 10 } }));
+function PokemonCollection({ width = 10 }) {
+  const [springs, set] = useSprings(pokemons.length, i => ({
+    opacity: 0,
+    x: i * width,
+    scale: 1,
+    config: { mass: 10 },
+  }));
   set(i => ({ opacity: 1 }));
+
+  const bind = useDrag(({ down }) => {
+    console.log(down);
+    set(i => ({ scale: down ? 1.1 : 1 }));
+  });
 
   return (
     <div className="container">
@@ -39,9 +50,17 @@ function PokemonCollection() {
         <FiSearch size={24} />
       </div>
       <div className="list">
-        {props.map((props, i) => (
-          <animated.div style={props}>
-            <div className="pokemon" style={{ backgroundColor: pokemons[i].color }}>
+        {springs.map(({ opacity, scale, x }, i) => (
+          <animated.div
+            {...bind()}
+            key={i}
+            style={{ opacity: opacity, transform: x.interpolate(x => `translate3d(${x}px,0,0)`) }}
+          >
+            {console.log(scale)}
+            <animated.div
+              className="pokemon"
+              style={{ backgroundColor: pokemons[i].color, transform: scale.interpolate(scale => `scale(${scale})`) }}
+            >
               <div className="pokemon-image">
                 <img alt="Pokemon" src={pokemons[i].url} height="220" />
               </div>
@@ -49,7 +68,7 @@ function PokemonCollection() {
                 <h2 className="pokemon-name">{pokemons[i].name}</h2>
                 <p>{pokemons[i].description}</p>
               </div>
-            </div>
+            </animated.div>
           </animated.div>
         ))}
       </div>
