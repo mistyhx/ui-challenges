@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useSprings, animated, interpolate } from "react-spring";
-import { useGesture, useDrag } from "react-use-gesture";
+import { useDrag } from "react-use-gesture";
 import { FiAlignLeft, FiSearch } from "react-icons/fi";
 import "./style.scss";
 
@@ -37,14 +37,8 @@ function PokemonCollection({ width = 10 }) {
   }));
   set(i => ({ opacity: 1, delay: i * 200 }));
 
-  const bind = useDrag(({ down, args: [i] }) => {
-    console.log(i);
-    // set(i => ({ if(index !==i) return scale: down && i ? 1.1 : 1 }));
-    set(i => {
-      if (i !== i) return;
-      const scale = down && i ? 1.1 : 1;
-      return { scale };
-    });
+  const bind = useDrag(({ args: [index], down }) => {
+    set(i => ({ scale: down && index === i ? 1.1 : 1 }));
   });
 
   return (
