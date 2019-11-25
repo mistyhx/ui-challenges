@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useSprings, animated } from "react-spring";
+import { useSprings, animated, interpolate } from "react-spring";
 import { useGesture, useDrag } from "react-use-gesture";
 import { FiAlignLeft, FiSearch } from "react-icons/fi";
 import "./style.scss";
@@ -35,11 +35,16 @@ function PokemonCollection({ width = 10 }) {
     scale: 1,
     config: { mass: 10 },
   }));
-  set(i => ({ opacity: 1 }));
+  set(i => ({ opacity: 1, delay: i * 200 }));
 
-  const bind = useDrag(({ down }) => {
-    console.log(down);
-    set(i => ({ scale: down ? 1.1 : 1 }));
+  const bind = useDrag(({ down, args: [i] }) => {
+    console.log(i);
+    // set(i => ({ if(index !==i) return scale: down && i ? 1.1 : 1 }));
+    set(i => {
+      if (i !== i) return;
+      const scale = down && i ? 1.1 : 1;
+      return { scale };
+    });
   });
 
   return (
@@ -51,15 +56,14 @@ function PokemonCollection({ width = 10 }) {
       </div>
       <div className="list">
         {springs.map(({ opacity, scale, x }, i) => (
-          <animated.div
-            {...bind()}
-            key={i}
-            style={{ opacity: opacity, transform: x.interpolate(x => `translate3d(${x}px,0,0)`) }}
-          >
-            {console.log(scale)}
+          <animated.div {...bind(i)} key={i}>
             <animated.div
               className="pokemon"
-              style={{ backgroundColor: pokemons[i].color, transform: scale.interpolate(scale => `scale(${scale})`) }}
+              style={{
+                opacity: opacity,
+                backgroundColor: pokemons[i].color,
+                transform: interpolate([x, scale], (x, scale) => `translate3d(${x}px,0,0) scale(${scale})`),
+              }}
             >
               <div className="pokemon-image">
                 <img alt="Pokemon" src={pokemons[i].url} height="220" />
